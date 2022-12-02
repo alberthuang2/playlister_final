@@ -16,6 +16,7 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import WarningModal from './WarningModal'
+import AppBanner from './AppBanner'
 
 export default function LoginScreen() {
     const { auth } = useContext(AuthContext);
@@ -31,7 +32,10 @@ export default function LoginScreen() {
     };
 
     return (
+        <div>
+        <AppBanner />
         <Grid container component="main" sx={{ height: '100vh' }}>
+
             <CssBaseline />
             <Grid
                 item
@@ -96,14 +100,9 @@ export default function LoginScreen() {
                         >
                             Sign In
                         </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
+                        <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/register/" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
@@ -115,5 +114,6 @@ export default function LoginScreen() {
                 </Box>
             </Grid>
         </Grid>
+        </div>
     );
 }
