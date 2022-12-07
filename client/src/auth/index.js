@@ -80,12 +80,14 @@ function AuthContextProvider(props) {
                 }
             });
         }
+
     }
 
     auth.registerUser = async function(username, firstName, lastName, email, password, passwordVerify) {
         try{
         console.log("create user: "+ username+ " "+firstName + " " + lastName + " " + email + " " + password + " " + passwordVerify);
-        const response = await api.registerUser(username, firstName, lastName, email, password, passwordVerify);      
+        const response = await api.registerUser(username, firstName, lastName, email, password, passwordVerify); 
+        console.log(response)     
         if (response.status === 200) {
             authReducer({
                 type: AuthActionType.REGISTER_USER,
@@ -150,6 +152,7 @@ function AuthContextProvider(props) {
             initials += auth.user.lastName.charAt(0);
         }
         console.log("user initials: " + initials);
+        console.log(auth.user)
         return initials;
     }
 

@@ -22,7 +22,7 @@ body {
 
 #root {
   background-color: var(--swatch-primary);
-  font-family: "Lexend Exa";
+  font-family: "Arial";
   position: absolute;
   width: 80%;
   left: 10%;
@@ -54,7 +54,7 @@ body {
   border-radius: 10px;
 }
 #splash-screen {
-  font-family: "Lexend Exa";
+  font-family: "Arial";
   background-image: linear-gradient(to bottom, #ff8080, #ffe6e6);
   color: black;
   border-color: black;
@@ -85,6 +85,16 @@ body {
 
 #ss-desc{
   font-size:2vw;
+}
+/* 
+#add-song-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+#undo-redo{
+  background-color: transparent;
+  float: left;
 }
 #edit-toolbar {
   background-color: transparent;
@@ -237,6 +247,12 @@ body {
 }
 #playlister-statusbar{
   text-align: center;
+}
+#songCards{
+  width:600px;
+}
+#list-selector-list{
+  top:125px;
 }
 .item-number,
 .top5-item,

@@ -24,18 +24,23 @@ function EditToolbar() {
     function handleRedo() {
         store.redo();
     }
-    function handleClose() {
-        store.closeCurrentList();
+    function handleDeleteList() {
+        console.log(store.currentList._id)
+        store.markListForDeletion(store.currentList._id);
     }
-    return (
-        <div id="edit-toolbar">
-            <Button
-                disabled={!store.canAddNewSong()}
-                id='add-song-button'
-                onClick={handleAddNewSong}
-                variant="contained">
-                <AddIcon />
-            </Button>
+    function handlePublishList(){
+        store.publishList();
+        console.log(store.currentList)
+    }
+    function handleDuplicateList(){
+        store.duplicateList();
+        console.log(store.currentList)
+    }
+    let published = store.currentList.published
+    let undoRedo = ''
+    if(!published){
+        undoRedo = 
+        <div id = "undo-redo">
             <Button 
                 disabled={!store.canUndo()}
                 id='undo-button'
@@ -50,13 +55,51 @@ function EditToolbar() {
                 variant="contained">
                     <RedoIcon />
             </Button>
-            <Button 
-                disabled={!store.canClose()}
-                id='close-button'
-                onClick={handleClose}
+            </div>
+    }
+    return (
+        <div>
+           {undoRedo}
+            <div id = "edit-toolbar">
+            {published?"":<Button
+                id='publish-button'
+                sx = {{
+                marginLeft: '2.5px',
+                marginRight:'2.5px' ,
+                backgroundColor: 'green',
+                 '&:hover': { backgroundColor: '#fff', color: 'green',
+  }}}
+                onClick={handlePublishList}
                 variant="contained">
-                    <CloseIcon />
+                   Publish
+            </Button>}
+            <Button 
+                // disabled={!store.canClose()}
+                id='delete-button'
+                sx = {{
+                marginLeft: '2.5px',
+                marginRight:'2.5px' ,
+                backgroundColor: 'red',
+                 '&:hover': { backgroundColor: '#fff', color: 'red',
+                }}}
+                onClick={handleDeleteList}
+                variant="contained">
+                   Delete
             </Button>
+             <Button 
+                // disabled={!store.canClose()}
+                id='duplicate-button'
+                sx = {{
+                marginLeft: '2.5px', 
+                marginRight:'2.5px' ,
+                backgroundColor: 'gray',
+                '&:hover': { backgroundColor: '#fff', color: 'gray',
+  }}}
+                onClick={handleDuplicateList}
+                variant="contained">
+                   Duplicate
+            </Button>
+            </div>
         </div>
     )
 }

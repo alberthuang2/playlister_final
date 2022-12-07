@@ -105,10 +105,45 @@ getPlaylistById = async (req, res) => {
         asyncFindUser(list);
     }).catch(err => console.log(err))
 }
+
+getAllPlaylistPairs =  async (req, res) => {
+    console.log("getAllPlaylistPairs");
+    await Playlist.find({}, (err, playlists) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!playlists.length) {
+            return res
+                .status(404)
+                .json({ success: false, error: `Playlists not found` })
+        } else {
+                    console.log("Send the Playlist pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let pairs = [];
+                    for (let key in playlists) {
+                        let list = playlists[key];
+                        if(list.published){
+                            let pair = {
+                            _id: list._id,
+                            name: list.name,
+                            ownerUsername: list.ownerUsername,
+                            published: list.published,
+                            publishDate: list.publishDate,
+                            likes: list.likes,
+                            dislikes: list.dislikes,
+                            views : list.views
+                        };
+                        pairs.push(pair);
+                        }
+                    }
+                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                }
+    }).catch(err => console.log(err))
+}
+ 
 getPlaylistPairs = async (req, res) => {
     console.log("getPlaylistPairs");
     await User.findOne({ _id: req.userId }, (err, user) => {
-        console.log("find user with id " + req.userId);
         async function asyncFindList(email) {
             console.log("find all Playlists owned by " + email);
             await Playlist.find({ ownerEmail: email }, (err, playlists) => {
@@ -128,9 +163,25 @@ getPlaylistPairs = async (req, res) => {
                     let pairs = [];
                     for (let key in playlists) {
                         let list = playlists[key];
+                        let likes = [];
+                        let dislikes = [];
+                        let publishDate = '';
+                        let views = 0;
+                        if(list.likes !== null){
+                            likes = list.likes;
+                            dislikes = list.dislikes;
+                            publishDate = list.publishDate;
+                            views = list.views;
+                        }
                         let pair = {
                             _id: list._id,
-                            name: list.name
+                            name: list.name,
+                            ownerUsername: list.ownerUsername,
+                            published: list.published,
+                            publishDate: publishDate,
+                            likes: likes,
+                            dislikes: dislikes,
+                            views : views
                         };
                         pairs.push(pair);
                     }
@@ -141,6 +192,7 @@ getPlaylistPairs = async (req, res) => {
         asyncFindList(user.email);
     }).catch(err => console.log(err))
 }
+
 getPlaylists = async (req, res) => {
     await Playlist.find({}, (err, playlists) => {
         if (err) {
@@ -183,9 +235,16 @@ updatePlaylist = async (req, res) => {
                 if (user._id == req.userId) {
                     console.log("correct user!");
                     console.log("req.body.name: " + req.body.name);
-
+                    console.log(body.playlist)
                     list.name = body.playlist.name;
                     list.songs = body.playlist.songs;
+                    list.published = body.playlist.published;
+                    if(body.playlist.likes!==null){
+                        list.likes = body.playlist.likes;
+                        list.dislikes = body.playlist.dislikes;
+                        list.publishDate = body.playlist.publishDate;
+                        list.views = body.playlist.views;
+                    }
                     list
                         .save()
                         .then(() => {
@@ -217,6 +276,7 @@ module.exports = {
     createPlaylist,
     deletePlaylist,
     getPlaylistById,
+    getAllPlaylistPairs,
     getPlaylistPairs,
     getPlaylists,
     updatePlaylist

@@ -1,6 +1,9 @@
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import { Typography } from '@mui/material'
+import { useHistory } from 'react-router-dom'
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
 
 /*
     Our Status bar React component goes at the bottom of our UI.
@@ -8,13 +11,22 @@ import { Typography } from '@mui/material'
     @author McKilla Gorilla
 */
 function Statusbar() {
-    const { store } = useContext(GlobalStoreContext);
-    let text ="";
-    if (store.currentList)
-        text = store.currentList.name;
+    const { store } = useContext(GlobalStoreContext); 
+    const history = useHistory();
+    function handleCreateNewList() {
+        store.createNewList();
+        // store.loadIdNamePairs();
+        // history.push('/')
+
+    }    
     return (
         <div id="playlister-statusbar">
-            <Typography variant="h4">{text}</Typography>
+           <Button
+                id='add-song-button'
+                onClick={handleCreateNewList}
+                variant="contained">
+                <AddIcon /> Your Playlists
+            </Button>
         </div>
     );
 }

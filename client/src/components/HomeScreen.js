@@ -3,6 +3,8 @@ import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
 import AppBanner from './AppBanner'
+import Statusbar from './Statusbar'
+import SubBanner from './SubBanner'
 
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
@@ -19,15 +21,12 @@ const HomeScreen = () => {
     useEffect(() => {
         store.loadIdNamePairs();
     }, []);
-
-    function handleCreateNewList() {
-        store.createNewList();
-    }
     let listCard = "";
     if (store) {
         listCard = 
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
+            <List sx={{top: '50px', bgcolor: 'background.paper' }}>
             {
+             
                 store.idNamePairs.map((pair) => (
                     <ListCard
                         key={pair._id}
@@ -41,8 +40,9 @@ const HomeScreen = () => {
     return (
         <div>
         <AppBanner/>
-        <div id="playlist-selector">
-            <div id="list-selector-heading">
+        <SubBanner/>
+        {/* <div id="playlist-selector"> */}
+            {/* <div id="list-selector-heading">
             <Fab 
                 color="primary" 
                 aria-label="add"
@@ -52,13 +52,14 @@ const HomeScreen = () => {
                 <AddIcon />
             </Fab>
                 <Typography variant="h2">Your Lists</Typography>
-            </div>
+            </div> */}
             <div id="list-selector-list">
                 {
                     listCard
                 }
+                <Statusbar/>
                 <MUIDeleteModal />
-            </div>
+            {/* </div> */}
         </div>
         </div>
         )
