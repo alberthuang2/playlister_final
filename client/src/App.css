@@ -86,12 +86,13 @@ body {
 #ss-desc{
   font-size:2vw;
 }
-/* 
+
 #add-song-button{
   display: flex;
   align-items: center;
   justify-content: center;
-} */
+  margin-bottom: 10px;
+}
 #undo-redo{
   background-color: transparent;
   float: left;
@@ -122,12 +123,15 @@ body {
 }
 
 #top5-list-selector {
-  position: absolute;
+  /* position: absolute;
   left: 0%;
   top: 10%;
   width: 100%;
   height: 80%;
   background-color: var(--swatch-primary);
+  overflow: hidden; */
+  display: flex;
+  flex-direction: row
 }
 
 #top5-workspace {
@@ -181,6 +185,16 @@ body {
   overflow: scroll;
 }
 
+#listcards{
+    height: 500px;
+    width: 600px;
+    /* background-color:#CCC; */
+    overflow-y: auto;
+    float: left;
+    position: relative;
+    margin-left: -5px;
+}
+
 .list-card,
 .selected-list-card,
 .unselected-list-card {
@@ -188,6 +202,16 @@ body {
   margin: 10px;
   padding: 20px;
   border-radius: 25px;
+  height:25px;
+}
+
+.playSong{
+  font-size: 18pt;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 25px;
+  height: 25px;
+  background-color: #669966;
 }
 
 .list-card:aria-disabled,
@@ -246,7 +270,7 @@ body {
   background-color: var(--swatch-primary);
 }
 #playlister-statusbar{
-  text-align: center;
+  margin-left: 200px;
 }
 #songCards{
   width:600px;

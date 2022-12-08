@@ -8,6 +8,7 @@ import SubBanner from './SubBanner'
 
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
+import YouTubePlayerExample from './YouTubePlayer'
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
 /*
@@ -25,9 +26,15 @@ const HomeScreen = () => {
     if (store) {
         listCard = 
             <List sx={{top: '50px', bgcolor: 'background.paper' }}>
-            {
-             
+            {store.searchedPairs === null?
                 store.idNamePairs.map((pair) => (
+                    <ListCard
+                        key={pair._id}
+                        idNamePair={pair}
+                        selected={false}
+                    />
+                )) :
+                store.searchedPairs.map((pair) => (
                     <ListCard
                         key={pair._id}
                         idNamePair={pair}
@@ -41,26 +48,14 @@ const HomeScreen = () => {
         <div>
         <AppBanner/>
         <SubBanner/>
-        {/* <div id="playlist-selector"> */}
-            {/* <div id="list-selector-heading">
-            <Fab 
-                color="primary" 
-                aria-label="add"
-                id="add-list-button"
-                onClick={handleCreateNewList}
-            >
-                <AddIcon />
-            </Fab>
-                <Typography variant="h2">Your Lists</Typography>
-            </div> */}
             <div id="list-selector-list">
-                {
-                    listCard
-                }
+                <div style ={{display:'flex', flexDirection:'row'}}>
+               <div id = "listcards">{listCard}</div> 
+               <YouTubePlayerExample/> </div>
                 <Statusbar/>
                 <MUIDeleteModal />
-            {/* </div> */}
-        </div>
+                </div>
+
         </div>
         )
 }

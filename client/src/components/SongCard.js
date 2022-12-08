@@ -43,8 +43,11 @@ function SongCard(props) {
             store.showEditSongModal(index, song);
         }
     }
-
+    
     let cardClass = "list-card unselected-list-card";
+    if(store.playSong === index){
+        cardClass = "playSong"
+    }
     return (
         <div
             key={index}

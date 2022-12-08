@@ -129,6 +129,8 @@ getAllPlaylistPairs =  async (req, res) => {
                             ownerUsername: list.ownerUsername,
                             published: list.published,
                             publishDate: list.publishDate,
+                            editDate: list.updatedAt,
+                            createDate: list.createdAt,
                             likes: list.likes,
                             dislikes: list.dislikes,
                             views : list.views
@@ -179,6 +181,8 @@ getPlaylistPairs = async (req, res) => {
                             ownerUsername: list.ownerUsername,
                             published: list.published,
                             publishDate: publishDate,
+                            editDate: list.updatedAt,
+                            createDate: list.createdAt,
                             likes: likes,
                             dislikes: dislikes,
                             views : views

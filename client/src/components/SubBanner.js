@@ -1,6 +1,4 @@
 import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom'
-import AuthContext from '../auth';
 import { GlobalStoreContext } from '../store'
 
 import AppBar from '@mui/material/AppBar';
@@ -11,37 +9,75 @@ import GroupIcon from '@mui/icons-material/Group';
 import PersonIcon from '@mui/icons-material/Person';
 
 import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import Toolbar from '@mui/material/Toolbar';
 
 export default function AppBanner() {
     const { store } = useContext(GlobalStoreContext);
+    const [text, setText] = useState("");
+    const [sortBy, setSortBy] = useState("AZ");
 
-    // let editToolbar = "";
-    // let menu = loggedOutMenu;
-    // if (auth.loggedIn) {
-    //     menu = loggedInMenu;
-    // }
-    
-    // function getAccountMenu(loggedIn) {
-    //     let userInitials = auth.getUserInitials();
-    //     console.log("userInitials: " + userInitials);
-    //     if (loggedIn) 
-    //         return <div>{userInitials}</div>;
-    //     else
-    //         return <AccountCircle />;
-    // }
     function handleClick(event, searchBy) {
         // DOUBLE CLICK IS FOR SONG EDITING
-        store.changeSearchBy(searchBy)
+        setText("");
+        setSortBy("AZ")
+        store.changeSearchBy(searchBy);
     }
-    function handleSearch(){
 
+    function handleUpdateText(event) {
+            setText(event.target.value);
+        }
+
+    function handleSearch(event){
+        if (event.code === "Enter") {
+            console.log(text);
+            store.search(text);
+    }
+}
+    function handleChange(event){
+        console.log(event);
+        setSortBy(event.target.value);
+        console.log(event.target.value);
+        store.changeSort(event.target.value);
     }
 
     let buttonStyle = {fontSize: 30};
     let houseStyle = buttonStyle;
     let groupStyle = buttonStyle;
     let personStyle = buttonStyle;
+    let sortlist = ''
+    if(store.searchBy === "HOME"){
+        sortlist = 
+         <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                sx = {{marginLeft: '10px'}}
+                value={sortBy}
+                onChange={handleChange}
+                >
+                <MenuItem value={'AZ'}>Name (A-Z)</MenuItem>
+                <MenuItem value={'CREATE'}>Create Date (Old-New)</MenuItem>
+                <MenuItem value={'EDIT'}>Edit Date (New-Old)</MenuItem>
+                </Select>
+                    
+    }else{
+        sortlist = 
+         <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                sx = {{marginLeft: '10px'}}
+                value={sortBy}
+                onChange={handleChange}
+                >
+                <MenuItem value={'AZ'}>Name (A-Z)</MenuItem>
+                <MenuItem value={'PUBLISH'}>Publish Date (New-Old)</MenuItem>
+                <MenuItem value={'LISTENS'}>Listens (High-Low)</MenuItem>
+                <MenuItem value={'LIKES'}>Likes (High-Low)</MenuItem>
+                <MenuItem value={'DISLIKES'}>Dislikes (High-Low)</MenuItem>
+
+                </Select>
+    }
     if(store.searchBy === "HOME")
         houseStyle =  {fontSize: 30, color: "red"};
     else if(store.searchBy === "ALL")
@@ -49,9 +85,10 @@ export default function AppBanner() {
     else if(store.searchBy === "USER")
         personStyle =  {fontSize: 30, color: "red"};
     return (
-        <Box sx={{ flexGrow: 1}}>
+        <Box >{/*sx={{ flexGrow: 1}}*/}
             <AppBar position="static"  elevation={0} sx = {{backgroundColor: "white" }}>
                 <Toolbar>
+                    <Box sx ={{p:1}}>
                     <IconButton 
                     onClick={(event) => {
                          handleClick(event, "HOME")
@@ -68,33 +105,18 @@ export default function AppBanner() {
                     }}>
                         <PersonIcon sx = {personStyle}/>
                     </IconButton>
-                {/* <Typography                        
-                    variant="h4"
-                    noWrap
-                    component="div"
-                    sx={{ display: { xs: 'none', sm: 'block' } }}                        
-                >
-                    <Link to = '/'><img id = "mini-logo" src = "../playlister_logo.png"></img></Link>    
-                </Typography>
-                <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
-                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    <IconButton
-                        size="large"
-                        edge="end"
-                        aria-label="account of current user"
-                        aria-controls={menuId}
-                        aria-haspopup="true"
-                        onClick={handleProfileMenuOpen}
-                        color="inherit"
-                    >
-                        { getAccountMenu(auth.loggedIn) }
-                    </IconButton>
-                </Box> */}
+              </Box>
                 <TextField 
                 sx = {{marginLeft : '50px', width: '35ch'}}
                 label = "Search"
-                onRequestSearch = {handleSearch}
-                focus = {true}/>
+                onKeyDown={handleSearch}
+                onChange = {handleUpdateText}
+                value = {text}
+                />
+                <Box sx={{ flexGrow: 1 }}></Box> 
+                <div style = {{color: 'black'}}>Sort By </div>
+                {sortlist}
+                    
                 </Toolbar>
             </AppBar>
         </Box>

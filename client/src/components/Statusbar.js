@@ -17,9 +17,10 @@ function Statusbar() {
         store.createNewList();
         // store.loadIdNamePairs();
         // history.push('/')
-
-    }    
-    return (
+    }
+    let addButton = '';
+    if(store.searchBy === "HOME"){
+        addButton = 
         <div id="playlister-statusbar">
            <Button
                 id='add-song-button'
@@ -28,6 +29,11 @@ function Statusbar() {
                 <AddIcon /> Your Playlists
             </Button>
         </div>
+    }    
+
+    return (
+        <div>        {addButton}
+</div>
     );
 }
 

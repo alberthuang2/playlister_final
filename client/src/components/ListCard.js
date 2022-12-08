@@ -91,6 +91,11 @@ function ListCard(props) {
     let open = store.currentList!==null && store.currentList._id===idNamePair._id;
     let liked = idNamePair.likes.indexOf(auth.user.username) > -1;
     let disliked = idNamePair.dislikes.indexOf(auth.user.username) > -1;
+    let publishStyle = { width: '100%', fontSize: '48pt'}
+    if(open)
+        publishStyle = { width: '100%', fontSize: '48pt', backgroundColor: '#ffcc99'}
+    else if(idNamePair.published)
+        publishStyle = { width: '100%', fontSize: '48pt', backgroundColor: '#e6ffff'}
     let likeStyle = {fontSize: '24pt'};
     if(liked){
         likeStyle ={fontSize: '24pt', color: 'blue'};
@@ -143,7 +148,7 @@ function ListCard(props) {
             id={idNamePair._id}
             key={idNamePair._id}
             sx={{ marginTop: '15px', display: 'flex', p: 1}}
-            style={{ width: '100%', fontSize: '48pt'}}
+            style={publishStyle}
             button
         >
             <ListItemText
@@ -151,7 +156,7 @@ function ListCard(props) {
 
             primary = {idNamePair.name}
             secondary =  {<span>Created by: {idNamePair.ownerUsername} <br/> {publishDate}</span>}
-            primaryTypographyProps={{fontSize: '30px'}}
+            primaryTypographyProps={{fontSize: '24px'}}
             secondaryTypographyProps={{fontSize: '18px',  whiteSpace: "normal"}} ></ListItemText>
             <Box sx={{ p: 1 }}>
             {likes}
@@ -167,7 +172,7 @@ function ListCard(props) {
                 </IconButton>
             </Box>
         </ListItem> 
-    if (editActive) {
+    if (editActive && !idNamePair.published) {
         cardElement =
             <TextField
                 margin="normal"
@@ -187,7 +192,7 @@ function ListCard(props) {
             />
     }
     return (
-        <div id = "songCards">
+        <div id = "list-cards">
        { cardElement}
        {/* {songCards} */}
         <Box sx={{ p: 1, flexGrow: 1 }}>{songCards}</Box>
